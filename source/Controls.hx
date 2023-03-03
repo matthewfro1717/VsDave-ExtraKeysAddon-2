@@ -898,7 +898,6 @@ class Controls extends FlxActionSet
 			scheme = None;
 		setKeyboardScheme(scheme, false);
 	}
-	#end
 
 	override function update()
 	{
@@ -1214,15 +1213,9 @@ class Controls extends FlxActionSet
 		{
 			case null:
 				// add all
-				#if (haxe >= "4.0.0")
-				for (gamepad in controls.gamepadsAdded)
-					if (!gamepadsAdded.contains(gamepad))
-						gamepadsAdded.push(gamepad);
-				#else
 				for (gamepad in controls.gamepadsAdded)
 					if (gamepadsAdded.indexOf(gamepad) == -1)
 					  gamepadsAdded.push(gamepad);
-				#end
 
 				mergeKeyboardScheme(controls.keyboardScheme);
 
@@ -1264,7 +1257,6 @@ class Controls extends FlxActionSet
 		}
 
 		forEachBound(control, function(action, state) addKeys(action, keys, state));
-		#end
 	}
 
 	/**
@@ -1279,7 +1271,6 @@ class Controls extends FlxActionSet
 		}
 
 		forEachBound(control, function(action, _) removeKeys(action, keys));
-		#end
 	}
 
 	inline static function addKeys(action:FlxActionDigital, keys:Array<FlxKey>, state:FlxInputState)
@@ -1659,27 +1650,17 @@ class Controls extends FlxActionSet
 	public function addGamepad(id:Int, ?buttonMap:Map<Control, Array<FlxGamepadInputID>>):Void
 	{
 		gamepadsAdded.push(id);
-		
-		#if (haxe >= "4.0.0")
-		for (control => buttons in buttonMap)
-			inline bindButtons(control, id, buttons);
-		#else
+
 		for (control in buttonMap.keys())
 			bindButtons(control, id, buttonMap[control]);
-		#end
 	}
 
 	inline function addGamepadLiteral(id:Int, ?buttonMap:Map<Control, Array<FlxGamepadInputID>>):Void
 	{
 		gamepadsAdded.push(id);
 
-		#if (haxe >= "4.0.0")
-		for (control => buttons in buttonMap)
-			inline bindButtons(control, id, buttons);
-		#else
 		for (control in buttonMap.keys())
 			bindButtons(control, id, buttonMap[control]);
-		#end
 	}
 
 	public function removeGamepad(deviceID:Int = FlxInputDeviceID.ALL):Void
@@ -1737,7 +1718,6 @@ class Controls extends FlxActionSet
 	public function bindButtons(control:Control, id, buttons)
 	{
 		forEachBound(control, function(action, state) addButtons(action, buttons, state, id));
-		#end
 	}
 
 	/**
@@ -1747,7 +1727,6 @@ class Controls extends FlxActionSet
 	public function unbindButtons(control:Control, gamepadID:Int, buttons)
 	{
 		forEachBound(control, function(action, _) removeButtons(action, gamepadID, buttons));
-		#end
 	}
 
 	inline static function addButtons(action:FlxActionDigital, buttons:Array<FlxGamepadInputID>, state, id)
