@@ -1984,6 +1984,7 @@ class Controls extends FlxActionSet
 	{
 		gamepadsAdded.push(id);
 
+		#if (haxe >= "4.2.5")
 		for (control => buttons in buttonMap)
 			inline bindButtons(control, id, buttons);
 		#else
